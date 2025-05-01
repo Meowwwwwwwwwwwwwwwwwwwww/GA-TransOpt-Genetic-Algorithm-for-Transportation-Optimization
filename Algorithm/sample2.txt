@@ -1,0 +1,33 @@
+SAMPLE_INPUT = {
+    "buses": [
+        {"id": "bus1", "capacity": 50, "depotCoordinates": [12.34, 56.78]},
+        {"id": "bus2", "capacity": 50, "depotCoordinates": [12.35, 56.79]}
+    ],
+    "stops": [
+        {"id": "stopA", "coordinates": [12.345, 56.789], "studentCount": 70},
+        {"id": "stopB", "coordinates": [12.355, 56.799], "studentCount": 30},
+        {"id": "college", "coordinates": [12.365, 56.809], "studentCount": 0}
+    ],
+    "constraints": {
+        "hard": {
+            "maxStudentsPerBus": 50,
+            "collegeLast": True,
+            "latestArrivalTime": "09:00"
+        },
+        "soft": {
+            "fuelWeight": 0.7,
+            "balanceWeight": 0.3
+        }
+    }
+}
+
+
+
+
+
+Output Format
+{
+    "busroutes": {"bus1": ["stop1", "stop2", "college"], ...},
+    "studentgroups": {"stopA": {"bus1": 40, "bus2": 30}, ...},
+    "departuretime": {"bus1": "7:00 AM", ...}
+}
