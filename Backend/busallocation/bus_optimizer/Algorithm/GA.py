@@ -164,50 +164,55 @@ class BusGA:
                 chromo["studentgroups"][stop_id][bus1["id"]] -= move
                 chromo["studentgroups"][stop_id][bus2["id"]] += move
         return chromo
-
     def run(self):
-        population = self.initialize_population()
+     population = self.initialize_population()
 
-        # Evaluate initial fitness
-        for chrom in population:
-            chrom["fitness"] = self.evaluate_fitness(chrom)
+    # Evaluate initial fitness
+     for chrom in population:
+         chrom["fitness"] = self.evaluate_fitness(chrom)
 
-        all_generations = []
+     all_generations = []
 
-        for generation in range(self.max_generations):
-            population.sort(key=lambda x: x["fitness"], reverse=True)
+     for generation in range(self.max_generations):
+         population.sort(key=lambda x: x["fitness"], reverse=True)
 
-            # Log current generation
-            print(f"\n=== Generation {generation + 1} ===")
-            for i, chrom in enumerate(population):
-                print(f"Chromosome {i + 1}: Fitness = {chrom['fitness']:.4f}")
+        # Log current generation
+         print(f"\n=== Generation {generation + 1} ===")
+         for i, chrom in enumerate(population):
+             print(f"Chromosome {i + 1}: Fitness = {chrom['fitness']:.4f}")
 
-            all_generations.append(copy.deepcopy(population))
+         all_generations.append(copy.deepcopy(population))
 
-            if population[0]["fitness"] >= 1.9:
-                print("\nEarly stopping: Good enough solution found.")
-                break
+         if population[0]["fitness"] >= 1.9:
+            print("\nEarly stopping: Good enough solution found.")
+            break
 
-            elites = population[:int(self.elitism * self.pop_size)]
-            selected = self.selection(population)
+         elites = population[:int(self.elitism * self.pop_size)]
+         selected = self.selection(population)
 
-            offspring = []
-            for i in range(0, len(selected) - 1, 2):
-                child = self.crossover(selected[i], selected[i + 1])
-                offspring.append(child)
+         offspring = []
+         for i in range(0, len(selected) - 1, 2):
+            child = self.crossover(selected[i], selected[i + 1])
+            offspring.append(child)
 
-            mutated = [self.mutate(c) for c in offspring]
-            for chrom in mutated:
-                chrom["fitness"] = self.evaluate_fitness(chrom)
+         mutated = [self.mutate(c) for c in offspring]
+         for chrom in mutated:
+             chrom["fitness"] = self.evaluate_fitness(chrom)
 
-            population = elites + mutated
-            population = population[:self.pop_size]
+         population = elites + mutated
+         population = population[:self.pop_size]
 
-        # Final best solution
-        best = max(population, key=lambda x: x["fitness"])
-        print(f"\n=== Best Final Solution (Fitness: {best['fitness']:.4f}) ===")
-        return self.format_solution(best)
+    # Final best solution
+     best = max(population, key=lambda x: x["fitness"])
+     print(f"\n=== Best Final Solution (Fitness: {best['fitness']:.4f}) ===")
 
+    # Store and return the formatted solution
+     final_solution = self.format_solution(best)
+     return final_solution
+
+
+     
+    
     def format_solution(self, chromo):
         formatted_solution = {
             "busroutes": {},
@@ -260,3 +265,4 @@ if __name__ == "__main__":
 
 
 #comment
+
