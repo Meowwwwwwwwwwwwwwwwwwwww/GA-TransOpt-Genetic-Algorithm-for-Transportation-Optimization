@@ -1,20 +1,32 @@
 from rest_framework import serializers
 
-class BusSerializer(serializers.Serializer):
-    id = serializers.CharField()
-    capacity = serializers.IntegerField()
-    depotCoordinates = serializers.ListField(child=serializers.FloatField())
+class BusGAInputSerializer(serializers.Serializer):
+    students = serializers.ListField()
+    buses = serializers.ListField()
+    stops = serializers.ListField()
+    constraints = serializers.DictField()
 
 class StopSerializer(serializers.Serializer):
     id = serializers.CharField()
-    coordinates = serializers.ListField(child=serializers.FloatField())
+    coordinates = serializers.ListField(
+        child=serializers.FloatField(), min_length=2, max_length=2
+
+    )
     studentCount = serializers.IntegerField()
 
-class ConstraintsSerializer(serializers.Serializer):
-    hard = serializers.DictField()
-    soft = serializers.DictField()
+class HardConstraintSerializer(serializers.Serializer):
+    maxStudentsPerBus = serializers.IntegerField()
+    collegeLast = serializers.BooleanField()
+    latestArrivalTime = serializers.TimeField(format='%H:%M')
 
-class BusGAInputSerializer(serializers.Serializer):
-    buses = BusSerializer(many=True)
+class SoftConstraintSerializer(serializers.Serializer):
+    fuelWeight = serializers.FloatField()
+    balanceWeight = serializers.FloatField()
+
+class ConstraintSerializer(serializers.Serializer):
+    hard = HardConstraintSerializer()
+    soft = SoftConstraintSerializer()
+
+class InputDataSerializer(serializers.Serializer):
     stops = StopSerializer(many=True)
-    constraints = ConstraintsSerializer()
+    constraints = ConstraintSerializer()

@@ -11,8 +11,8 @@ PENALTY_FOR_LATE_ARRIVAL = 1000
 CAPACITY_UTILIZATION_WEIGHT = 0.7
 ROUTE_EFFICIENCY_WEIGHT = 0.3
 MUTATION_RATE = 0.2
-POPULATION_SIZE = 50
-NUM_GENERATIONS = 200
+POPULATION_SIZE = 10
+NUM_GENERATIONS = 50
 ELITISM_COUNT = 5
 
 import requests
@@ -21,32 +21,32 @@ import random
 
 def mock_get_traffic_time(from_coords, to_coords):
     
-    # API_KEY = "5b3ce3597851110001cf6248efa823ca40dc44748df8d53da49b0644"  
+    API_KEY = "5b3ce3597851110001cf6248efa823ca40dc44748df8d53da49b0644"  
     
-    # try:
+    try:
         
-    #     start = f"{from_coords[1]},{from_coords[0]}"
-    #     end = f"{to_coords[1]},{to_coords[0]}"
+        start = f"{from_coords[1]},{from_coords[0]}"
+        end = f"{to_coords[1]},{to_coords[0]}"
         
-    #     url = f"https://api.openrouteservice.org/v2/directions/driving-car"
-    #     headers = {
-    #         'Authorization': API_KEY,
-    #         'Accept': 'application/json, application/geo+json'
-    #     }
-    #     params = {
-    #         'start': start,
-    #         'end': end
-    #     }
+        url = f"https://api.openrouteservice.org/v2/directions/driving-car"
+        headers = {
+            'Authorization': API_KEY,
+            'Accept': 'application/json, application/geo+json'
+        }
+        params = {
+            'start': start,
+            'end': end
+        }
         
-    #     response = requests.get(url, headers=headers, params=params, timeout=3)
-    #     data = response.json()
+        response = requests.get(url, headers=headers, params=params, timeout=3)
+        data = response.json()
         
-    #     if 'routes' in data and len(data['routes']) > 0:
-    #         duration = data['routes'][0]['duration'] / 60
-    #         return max(5, int(duration))  
+        if 'routes' in data and len(data['routes']) > 0:
+            duration = data['routes'][0]['duration'] / 60
+            return max(5, int(duration))  
     
-    # except Exception as e:
-    #     pass  
+    except Exception as e:
+        pass  
 
     
     lat1, lon1 = from_coords
